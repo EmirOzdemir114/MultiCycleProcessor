@@ -15,24 +15,31 @@ module controller(
 );
 
     logic [1:0] aluop;
-    logic       branch, pcupdate;
+    logic branch, pcupdate;
 
 mainFSM mfsm(
     .clk(clk), .reset(reset),
     .op(op),
-    .alusrca(alusrca), .alusrcb(alusrcb),
-    .resultsrc(resultsrc), .adrsrc(adrsrc),
+	
+    .alusrca(alusrca), 
+	.alusrcb(alusrcb),
+	
+    .resultsrc(resultsrc), 
+	.adrsrc(adrsrc),
+	
     .aluop(aluop),
+	
     .irwrite(irwrite),
+	
     .pcupdate(pcupdate),
-    .regwrite(regwrite), .memwrite(memwrite),
+	
+    .regwrite(regwrite), 
+	.memwrite(memwrite),
+	
     .branch(branch)
 );
-    
-	aludec  	alu(.opb5(op[5]), .funct3(funct3), .funct7b5(funct7b5), .ALUOp(aluop), .ALUControl(alucontrol));                                     
-    
-	instrdec instr(.op(op), .ImmSrc(immsrc));
-
+    instrdec instr(.op(op), .ImmSrc(immsrc));
+	aludec alu(.opb5(op[5]), .funct3(funct3), .funct7b5(funct7b5), .ALUOp(aluop), .ALUControl(alucontrol));                                     
     assign pcwrite = pcupdate | (branch & zero);
 
 endmodule
